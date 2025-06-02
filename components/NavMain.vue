@@ -6,17 +6,15 @@ import {
 } from '@/components/ui/collapsible'
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
+  SidebarMenuButton,
 } from '@/components/ui/sidebar'
-import { ChevronRight, type LucideIcon } from 'lucide-vue-next'
 
-defineProps<{
+import { useRoute } from 'vue-router'
+import { type LucideIcon } from 'lucide-vue-next'
+
+const props = defineProps<{
   items: {
     title: string
     url: string
@@ -28,40 +26,31 @@ defineProps<{
     }[]
   }[]
 }>()
+
+const route = useRoute()
 </script>
 
 <template>
   <SidebarGroup>
-    <!-- <SidebarGroupLabel>Platform</SidebarGroupLabel> -->
     <SidebarMenu>
-      <Collapsible
-        v-for="item in items"
-        :key="item.title"
-        as-child
-        :default-open="item.isActive"
-        class="group/collapsible"
-      >
-        <SidebarMenuItem>
-          <CollapsibleTrigger as-child>
-            <SidebarMenuButton :tooltip="item.title">
-              <component :is="item.icon" v-if="item.icon" />
-              <span>{{ item.title }}</span>
-              <ChevronRight class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-            </SidebarMenuButton>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <SidebarMenuSub>
-              <SidebarMenuSubItem v-for="subItem in item.items" :key="subItem.title">
-                <SidebarMenuSubButton as-child>
-                  <a :href="subItem.url">
-                    <span>{{ subItem.title }}</span>
-                  </a>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
-            </SidebarMenuSub>
-          </CollapsibleContent>
-        </SidebarMenuItem>
-      </Collapsible>
+      <SidebarMenuItem v-for="item in items" :key="item.title"
+        :data-state="route.path === item.url ? 'active' : undefined">
+        <NuxtLink :to="item.url" class="w-full">
+          <SidebarMenuButton :tooltip="item.title" class="w-full text-left">
+            <component :is="item.icon" v-if="item.icon" />
+            <span>{{ item.title }}</span>
+          </SidebarMenuButton>
+        </NuxtLink>
+      </SidebarMenuItem>
     </SidebarMenu>
   </SidebarGroup>
 </template>
+
+<style scoped>
+[data-state="active"] {
+  background-color: #eeeeee;
+  color: black;
+  font-weight: bold;
+  border-radius: 8px;
+}
+</style>

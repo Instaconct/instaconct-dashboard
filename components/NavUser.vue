@@ -21,34 +21,29 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
+  ChevronsUpDown,
 } from 'lucide-vue-next'
 
+
 import { useRouter } from 'vue-router'
-import { useAuth } from '@/composables/useAuth'
+import { useAuthStore } from '~/store/auth'
 
-const { logout, user } = useAuth()
+const auth = useAuthStore();
 
 
-const props = defineProps<{
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}>()
+const user = {
+  name: auth.user?.name || 'Guest',
+  email: auth.user?.email || 'guest@example.com',
+  avatar: auth.user?.avatar || ''
+};
 
 const { isMobile } = useSidebar()
-
 const router = useRouter()
 
-const handleLogout = () => {
-  logout()
+const handleLogout = async () => {
+  await auth.logout()
+  router.push('/login')
 }
 </script>
 
@@ -59,12 +54,6 @@ const handleLogout = () => {
         <DropdownMenuTrigger as-child>
           <SidebarMenuButton size="lg"
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-            <Avatar class="h-8 w-8 rounded-lg">
-              <AvatarImage :src="user?.avatar" :alt="user?.name" />
-              <AvatarFallback class="rounded-lg">
-                CN
-              </AvatarFallback>
-            </Avatar>
             <div class="grid flex-1 text-left text-sm leading-tight">
               <span class="truncate font-medium">{{ user?.name }}</span>
               <span class="truncate text-xs">{{ user?.email }}</span>
@@ -76,12 +65,7 @@ const handleLogout = () => {
           :side="isMobile ? 'bottom' : 'right'" align="end" :side-offset="4">
           <DropdownMenuLabel class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-              <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage :src="user?.avatar" :alt="user?.name" />
-                <AvatarFallback class="rounded-lg">
-                  CN
-                </AvatarFallback>
-              </Avatar>
+      
               <div class="grid flex-1 text-left text-sm leading-tight">
                 <span class="truncate font-semibold">{{ user?.name }}</span>
                 <span class="truncate text-xs">{{ user?.email }}</span>
@@ -89,28 +73,6 @@ const handleLogout = () => {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <!-- <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Sparkles />
-              Upgrade to Pro
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <BadgeCheck />
-              Account
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <CreditCard />
-              Billing
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Bell />
-              Notifications
-            </DropdownMenuItem>
-          </DropdownMenuGroup> -->
-          <!-- <DropdownMenuSeparator /> -->
           <button class="min-w-full" @click="handleLogout">
             <DropdownMenuItem>
               <LogOut />

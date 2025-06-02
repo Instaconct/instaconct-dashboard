@@ -1,4 +1,5 @@
 <script setup>
+import { useRoute } from 'vue-router'
 import AppSidebar from '~/components/AppSidebar.vue'
 import {
   Breadcrumb,
@@ -15,6 +16,14 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 
+// get current route
+const route = useRoute()
+
+// extract the last part of the path
+const currentPage = computed(() => {
+  const segments = route.path.split('/')
+  return segments[segments.length - 1] || 'Dashboard'
+})
 </script>
 
 <template>
@@ -30,12 +39,12 @@ import {
             <BreadcrumbList>
               <BreadcrumbItem class="hidden md:block">
                 <BreadcrumbLink href="#">
-                  Building Your Application
+                  instaconect
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator class="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                <BreadcrumbPage>{{ currentPage }}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
