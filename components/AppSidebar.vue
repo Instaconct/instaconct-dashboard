@@ -15,6 +15,7 @@ import {
   User,
   MessageCircle,
   Building,
+  CircleFadingPlus
 } from 'lucide-vue-next'
 
 import logo from "../assets/images/logo.png"
@@ -35,6 +36,11 @@ const data = {
       title: 'Organisations',
       url: '/Organisations',
       icon: Building,
+    },
+    {
+      title: 'Connect With Meta',
+      url: '/ConnectWithMeta',
+      icon: CircleFadingPlus,
     },
     {
       title: 'Chats',

@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import logo from "@/assets/images/regesterLogo.png"
+import effect from "@/assets/images/effectSignUp.png"
 
 import { useAuthStore } from '~/store/auth'
 
@@ -46,52 +48,62 @@ const submit = async () => {
 </script>
 
 <template>
-    <Card class="mx-auto min-w-xl">
-        <CardHeader>
-            <CardTitle class="text-xl">Sign Up</CardTitle>
-            <CardDescription>Enter your information to create an account</CardDescription>
-        </CardHeader>
-        <CardContent>
-            <Alert v-if="success" class="mb-4 border-green-500">
-                <AlertTitle>Success</AlertTitle>
-                <AlertDescription>Account created successfully! Redirecting...</AlertDescription>
-            </Alert>
+    <div class="min-w-[100%] min-h-[100vh] flex items-center justify-center gap-48  relative">
 
-            <Alert v-if="error" class="mb-4 border-red-500">
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>{{ error }}</AlertDescription>
-            </Alert>
+        <Card class="w-full max-w-xl z-10">
+            <CardHeader>
+                <CardTitle class="text-xl">Sign Up</CardTitle>
+                <CardDescription>Enter your information to create an account</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Alert v-if="success" class="mb-4 border-green-500">
+                    <AlertTitle>Success</AlertTitle>
+                    <AlertDescription>Account created successfully! Redirecting...</AlertDescription>
+                </Alert>
 
-            <form @submit.prevent="submit">
-                <div class="grid gap-4">
-                    <div class="grid gap-2">
-                        <Label for="name">Name</Label>
-                        <Input v-model="name" id="name" type="text" placeholder="islam khalil" required />
+                <Alert v-if="error" class="mb-4 border-red-500">
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>{{ error }}</AlertDescription>
+                </Alert>
+
+                <form @submit.prevent="submit">
+                    <div class="grid gap-4">
+                        <div class="grid gap-2">
+                            <Label for="name">Name</Label>
+                            <Input v-model="name" id="name" type="text" placeholder="islam khalil" required />
+                        </div>
+                        <div class="grid gap-2">
+                            <Label for="email">Email</Label>
+                            <Input v-model="email" id="email" type="email" placeholder="es@example.com" required />
+                        </div>
+                        <div class="grid gap-2">
+                            <Label for="phone">Phone number</Label>
+                            <Input v-model="phone" id="phone" placeholder="+201123526875" required />
+                        </div>
+                        <div class="grid gap-2">
+                            <Label for="password">Password</Label>
+                            <Input v-model="password" id="password" type="password" required />
+                        </div>
+                        <div class="grid gap-2">
+                            <Label for="organization">Organization</Label>
+                            <Input v-model="organization.name" id="organization" placeholder="org name" />
+                        </div>
+                        <Button type="submit" class="w-full">Create an account</Button>
                     </div>
-                    <div class="grid gap-2">
-                        <Label for="email">Email</Label>
-                        <Input v-model="email" id="email" type="email" placeholder="es@example.com" required />
-                    </div>
-                    <div class="grid gap-2">
-                        <Label for="phone">Phone number</Label>
-                        <Input v-model="phone" id="phone" placeholder="+201123526875" required />
-                    </div>
-                    <div class="grid gap-2">
-                        <Label for="password">Password</Label>
-                        <Input v-model="password" id="password" type="password" required />
-                    </div>
-                    <div class="grid gap-2">
-                        <Label for="organization">Organization</Label>
-                        <Input v-model="organization.name" id="organization" placeholder="org name" />
-                    </div>
-                    <Button type="submit" class="w-full">Create an account</Button>
+                </form>
+
+                <div class="mt-4 text-center text-sm">
+                    Already have an account?
+                    <NuxtLink to="/login" class="underline">Sign in</NuxtLink>
                 </div>
-            </form>
+            </CardContent>
+        </Card>
 
-            <div class="mt-4 text-center text-sm">
-                Already have an account?
-                <NuxtLink to="/login" class="underline">Sign in</NuxtLink>
-            </div>
-        </CardContent>
-    </Card>
+        <div>
+            <img :src="logo" class="w-[22rem]" />
+        </div>
+
+        <img :src="effect" class="w-full absolute bottom-0" />
+    </div>
+
 </template>

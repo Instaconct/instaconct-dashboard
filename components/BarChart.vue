@@ -13,10 +13,10 @@ import {
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const barData = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green'],
+  labels: ['month', 'Two weeks', 'week', 'today'],
   datasets: [
     {
-      label: 'Votes',
+      label: 'conversations',
       data: [12, 19, 3, 5],
       backgroundColor: ['#f87171', '#60a5fa', '#facc15', '#34d399'],
     },

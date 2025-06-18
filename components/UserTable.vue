@@ -68,8 +68,8 @@ onBeforeUnmount(() => {
     <div class="overflow-x-auto rounded-2xl shadow">
         <EditAgentSheet :user="selectedUser" :is-editing="isEditing" v-model="sheetOpen" @save="handleSave" />
 
-        <div class="flex justify-start  min-w-[100%] sticky top-0 z-30 bg-gray-100">
-            <Button @click="openAddSheet" class="m-2 cursor-pointer min-w-[12rem]">
+        <div class="flex justify-end min-w-[100%] sticky top-0 z-30 bg-gray-100">
+            <Button @click="openAddSheet" class="m-4 cursor-pointer min-w-[15rem]">
                 <Plus class="w-4 h-4" />
                 Add Employee
             </Button>

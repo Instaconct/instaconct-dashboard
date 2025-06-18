@@ -70,15 +70,15 @@ function handleTicketClick(ticket: any) {
 
 
 // meta connect 
-async function handleMetaConnect() {
-    await dashboard.metaConnect();
+// async function handleMetaConnect() {
+//     await dashboard.metaConnect();
 
-    if (dashboard.redirectUrl) {
-        window.location.href = dashboard.redirectUrl;
-    } else {
-        console.log("Meta Connect Data:", dashboard.metaConnectData);
-    }
-}
+//     if (dashboard.redirectUrl) {
+//         window.location.href = dashboard.redirectUrl;
+//     } else {
+//         console.log("Meta Connect Data:", dashboard.metaConnectData);
+//     }
+// }
 
 
 </script>
@@ -86,9 +86,13 @@ async function handleMetaConnect() {
 
 <template>
     <div class="flex flex-col gap-4">
-        <Button @click="handleMetaConnect" class="max-w-[15rem] cursor-pointer"> 
-            connect with facebook 
-        </Button>
+        <div class="min-w-[100%] bg-muted/50 p-6 rounded-lg flex flex-col gap-2 mb-2">
+            <h1 class="text-[#020617] font-bold text-2xl">Chats</h1>
+            <h6 class="text-[#64748B]">All your conversations in one place</h6>
+        </div>
+        <!-- <Button @click="handleMetaConnect" class="max-w-[15rem] cursor-pointer">
+            connect with facebook
+        </Button> -->
 
         <div class="grid grid-cols-12 min-h-screen gap-2">
             <!-- Sidebar -->
