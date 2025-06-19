@@ -7,21 +7,15 @@ import {
 import { useAuthStore } from "~/store/auth";
 
 export default defineNuxtRouteMiddleware(async (to) => {
-  const nuxtApp = useNuxtApp();
-  const auth = useAuthStore(nuxtApp.$pinia);
+  const auth = useAuthStore();
 
-  const accessTokenCookie = useCookie("accessToken");
-  const refreshTokenCookie = useCookie("refreshToken");
-
-  if (!auth.accessToken) {
-    await auth.refreshTokens({
-      accessToken: accessTokenCookie,
-      refreshToken: refreshTokenCookie,
-    });
+  if (!auth.user) {
+    await auth.initUserFromLocalStorage?.();
   }
 
-  const isAuthPage: boolean = ["/login", "/register"].includes(to.path);
-  const isLoggedIn: boolean = !!auth.accessToken;
+  const accessToken = useCookie<string>("accessToken").value;
+  const isAuthPage = ["/login", "/register"].includes(to.path);
+  const isLoggedIn = !!accessToken;
 
   if (!isLoggedIn && !isAuthPage) {
     return navigateTo("/login");

@@ -56,8 +56,8 @@ const currentPage = computed(() => {
       <div class=" z-10 flex flex-1 flex-col gap-4 p-4 pt-0">
         <slot />
       </div>
-      <!-- <img :src="Ellipse1Img" class="absolute bottom-0 right-0" />
-      <img :src="Ellipse2Img" class="absolute top-0 left-0" /> -->
+      <img :src="Ellipse1Img" class="absolute bottom-0 right-0" />
+      <!-- <img :src="Ellipse2Img" class="absolute top-0 left-0" /> -->
     </SidebarInset>
   </SidebarProvider>
 </template>

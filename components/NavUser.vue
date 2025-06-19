@@ -25,6 +25,8 @@ import {
   ChevronsUpDown,
 } from 'lucide-vue-next'
 
+import { computed } from 'vue'
+
 
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '~/store/auth'
@@ -32,11 +34,11 @@ import { useAuthStore } from '~/store/auth'
 const auth = useAuthStore();
 
 
-const user = {
+const user = computed(() => ({
   name: auth.user?.name || 'Guest',
   email: auth.user?.email || 'guest@example.com',
   avatar: auth.user?.avatar || ''
-};
+}))
 
 const { isMobile } = useSidebar()
 const router = useRouter()

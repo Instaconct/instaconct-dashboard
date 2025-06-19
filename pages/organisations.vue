@@ -32,7 +32,7 @@ import EditAgentSheet from '~/components/EditAgentSheet.vue'
 const auth = useAuthStore()
 const dashboard = useDashboardStore()
 
-const organizationName = auth.user.organization.name
+const organizationName = auth?.user?.organization?.name
 
 // State for filtering and pagination
 const searchQuery = ref('')
@@ -51,20 +51,20 @@ const totalItems = ref(100)
 // Computed properties
 const filteredEmployees = computed(() => {
   let filtered = dashboard.agents || []
-  
+
   // Filter by search query
   if (searchQuery.value) {
-    filtered = filtered.filter(agent => 
+    filtered = filtered.filter(agent =>
       agent.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       agent.email.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
   }
-  
+
   // Filter by role
   if (selectedRole.value !== 'all') {
     filtered = filtered.filter(agent => agent.role === selectedRole.value)
   }
-  
+
   return filtered
 })
 
@@ -123,10 +123,8 @@ onMounted(() => {
 <template>
   <div class="min-h-[100vh] p-6 bg-background relative overflow-hidden">
     <!-- Blue glow effect -->
-    <div 
-      class="absolute w-[803px] h-[803px] bg-[#73A8FF] blur-[800px] rounded-full pointer-events-none"
-      style="top: 546px; left: 959px;"
-    ></div>
+    <div class="absolute w-[803px] h-[803px] bg-[#73A8FF] blur-[800px] rounded-full pointer-events-none"
+      style="top: 546px; left: 959px;"></div>
     <!-- Header Section -->
     <div class="flex items-center justify-between mb-6">
       <div>
@@ -154,14 +152,10 @@ onMounted(() => {
         <!-- Search -->
         <div class="relative">
           <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            v-model="searchQuery"
-            placeholder="Filter Employee..."
-            class="pl-10 w-64"
-          />
+          <Input v-model="searchQuery" placeholder="Filter Employee..." class="pl-10 w-64" />
         </div>
       </div>
-      
+
       <Button @click="openAddSheet" class="gap-2">
         <Plus class="h-4 w-4" />
         Add Employee
@@ -183,7 +177,8 @@ onMounted(() => {
         <TableBody>
           <TableRow v-for="employee in paginatedEmployees" :key="employee.id" class="hover:bg-muted/50">
             <TableCell class="font-medium">{{ employee.name }}</TableCell>
-            <TableCell class="text-muted-foreground">#{{ employee.id || Math.random().toString(36).substr(2, 6).toUpperCase() }}</TableCell>
+            <TableCell class="text-muted-foreground">#{{ employee.id || Math.random().toString(36).substr(2,
+              6).toUpperCase() }}</TableCell>
             <TableCell class="capitalize">{{ employee.role || 'agent' }}</TableCell>
             <TableCell>
               <Badge :variant="getStatusVariant(employee.status || 'active')" class="capitalize">
@@ -233,31 +228,16 @@ onMounted(() => {
           Page {{ currentPage }} of {{ totalPages }}
         </span>
         <div class="flex gap-1">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            :disabled="currentPage <= 1"
-            @click="changePage(currentPage - 1)"
-            class="h-8 w-8 p-0"
-          >
+          <Button variant="outline" size="sm" :disabled="currentPage <= 1" @click="changePage(currentPage - 1)"
+            class="h-8 w-8 p-0">
             ‹
           </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            :disabled="currentPage >= totalPages"
-            @click="changePage(currentPage + 1)"
-            class="h-8 w-8 p-0"
-          >
+          <Button variant="outline" size="sm" :disabled="currentPage >= totalPages" @click="changePage(currentPage + 1)"
+            class="h-8 w-8 p-0">
             ›
           </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            :disabled="currentPage >= totalPages"
-            @click="changePage(totalPages)"
-            class="h-8 w-8 p-0"
-          >
+          <Button variant="outline" size="sm" :disabled="currentPage >= totalPages" @click="changePage(totalPages)"
+            class="h-8 w-8 p-0">
             ››
           </Button>
         </div>
@@ -265,11 +245,6 @@ onMounted(() => {
     </div>
 
     <!-- Edit/Add Employee Sheet -->
-    <EditAgentSheet 
-      :user="selectedUser" 
-      :is-editing="isEditing" 
-      v-model="sheetOpen" 
-      @save="handleSave" 
-    />
+    <EditAgentSheet :user="selectedUser" :is-editing="isEditing" v-model="sheetOpen" @save="handleSave" />
   </div>
 </template>

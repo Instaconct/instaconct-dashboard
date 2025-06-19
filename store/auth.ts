@@ -5,14 +5,10 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     user: null as any,
     accessToken: null as string | null,
-    refreshToken: null as string | null,
   }),
 
   actions: {
     async login(email: string, password: string) {
-      const accessTokenCookie = useCookie("accessToken");
-      const refreshTokenCookie = useCookie("refreshToken");
-
       const res = await $fetch("/api/auth/login", {
         method: "POST",
         body: { email, password },
@@ -20,10 +16,10 @@ export const useAuthStore = defineStore("auth", {
 
       this.user = res.user;
       this.accessToken = res.accessToken;
-      this.refreshToken = res.refreshToken;
 
-      accessTokenCookie.value = res.accessToken;
-      refreshTokenCookie.value = res.refreshToken;
+      useCookie("accessToken").value = res.accessToken;
+
+      localStorage.setItem("user", JSON.stringify(res.user));
     },
 
     async register(
@@ -33,9 +29,6 @@ export const useAuthStore = defineStore("auth", {
       password: string,
       organization: { name: string }
     ) {
-      const accessTokenCookie = useCookie("accessToken");
-      const refreshTokenCookie = useCookie("refreshToken");
-
       const res = await $fetch("/api/auth/register", {
         method: "POST",
         body: { name, email, phone, password, organization },
@@ -43,52 +36,28 @@ export const useAuthStore = defineStore("auth", {
 
       this.user = res.user;
       this.accessToken = res.accessToken;
-      this.refreshToken = res.refreshToken;
 
-      accessTokenCookie.value = res.accessToken;
-      refreshTokenCookie.value = res.refreshToken;
+      useCookie("accessToken").value = res.accessToken;
+      localStorage.setItem("user", JSON.stringify(res.user));
     },
 
     logout() {
-      const accessTokenCookie = useCookie("accessToken");
-      const refreshTokenCookie = useCookie("refreshToken");
-
       this.user = null;
       this.accessToken = null;
-      this.refreshToken = null;
 
-      accessTokenCookie.value = null;
-      refreshTokenCookie.value = null;
+      useCookie("accessToken").value = null;
+      localStorage.removeItem("user");
     },
 
-    async refreshTokens() {
-      const accessTokenCookie = useCookie("accessToken");
-      const refreshTokenCookie = useCookie("refreshToken");
+    async initUserFromLocalStorage() {
+      if (process.client) {
+        const user = localStorage.getItem("user");
+        const accessToken = useCookie<string>("accessToken").value;
 
-      const refreshToken = refreshTokenCookie.value;
-      const accessToken = accessTokenCookie.value;
-
-      if (!refreshToken || !accessToken) {
-        this.logout();
-        return;
-      }
-
-      try {
-        const res = await $fetch("/api/auth/refresh", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            accessToken,
-            refreshToken,
-          }),
-        });
-
-        this.accessToken = res.accessToken;
-        accessTokenCookie.value = res.accessToken;
-      } catch (error) {
-        this.logout();
+        if (user && accessToken) {
+          this.user = JSON.parse(user);
+          this.accessToken = accessToken;
+        }
       }
     },
   },
