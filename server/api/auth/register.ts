@@ -3,10 +3,15 @@ export default defineEventHandler(async (event) => {
 
   const config = useRuntimeConfig(event);
 
-  const response = await $fetch(`${config.public.apiBase}/auth/register`, {
-    method: "POST",
-    body,
-  });
+  try {
+    const response = await $fetch(`${config.public.apiBase}/auth/register`, {
+      method: "POST",
+      body,
+    });
 
-  return response;
-});
+    return response;
+  } catch (error) {
+    console.error('Registration error:', error);
+    throw error;
+  }
+}); 

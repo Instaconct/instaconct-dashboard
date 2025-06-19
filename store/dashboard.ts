@@ -133,5 +133,18 @@ export const useDashboardStore = defineStore("dashboard", {
         this.loadingMeta = false;
       }
     },
+    async sdkConnect(){
+      this.loadingMeta = true;
+      this.error = null;
+
+      try {
+        const res = await $fetch('/api/dashboard/sdk-info')
+        return res;
+      } catch (err: any) {
+        this.error = "Error during sdkConnect";
+      } finally {
+        this.loadingMeta = false;
+      } 
+    }
   },
 });

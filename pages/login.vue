@@ -33,7 +33,7 @@ const handleLogin = async () => {
 
         await navigateTo('/');
     } catch (err: any) {
-        error.value = err.message || "Login failed. Please try again.";
+        error.value = "Login failed. Please try again.";
     }
 };
 </script>

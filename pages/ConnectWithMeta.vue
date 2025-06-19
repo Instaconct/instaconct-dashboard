@@ -13,8 +13,6 @@ async function handleMetaConnect() {
         console.log("Meta Connect Data:", dashboard.metaConnectData);
     }
 }
-
-
 </script>
 
 <template>
@@ -80,8 +78,6 @@ async function handleMetaConnect() {
                     </tr>
                 </tbody>
             </table>
-
-
         </div>
     </div>
 </template>
